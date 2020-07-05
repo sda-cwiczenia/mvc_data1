@@ -1,18 +1,14 @@
 package com.sda.mvc_data1.controller;
 
 import com.sda.mvc_data1.model.Person;
-import com.sda.mvc_data1.model.PersonDTO;
+import com.sda.mvc_data1.model.PersonAddDTO;
 import com.sda.mvc_data1.repository.PersonRepository;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 @RequestMapping("/sda")
@@ -25,15 +21,15 @@ public class PersonController {
     }
 @GetMapping("/person-add")
     public String pobierzFormularz(Model model) {
-        PersonDTO form = new PersonDTO();
+        PersonAddDTO form = new PersonAddDTO();
         model.addAttribute("form", form);
         return "person-add";
     }
 
     @PostMapping("/person-add")
-    public String dodajOsobe(@ModelAttribute("form") @Valid PersonDTO form, BindingResult result) {
+    public String dodajOsobe(@ModelAttribute("form") @Valid PersonAddDTO form, BindingResult result) {
         if (result.hasErrors()) {
-            return "/person-add";
+            return "person-add";
         } else {
             Person person = new Person();
             person.setImie(form.getImie());
