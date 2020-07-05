@@ -1,7 +1,7 @@
 package com.sda.mvc_data1.controller;
 
 import com.sda.mvc_data1.model.Person;
-import com.sda.mvc_data1.model.PersonAddDTO;
+import com.sda.mvc_data1.model.PersonDTO;
 import com.sda.mvc_data1.repository.PersonRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,20 +14,21 @@ import javax.validation.Valid;
 @RequestMapping("/sda")
 public class PersonController {
 
-    PersonRepository repository;
+    private PersonRepository repository;
 
     public PersonController(PersonRepository repository) {
         this.repository = repository;
     }
-@GetMapping("/person-add")
+
+    @GetMapping("/person-add")
     public String pobierzFormularz(Model model) {
-        PersonAddDTO form = new PersonAddDTO();
+        PersonDTO form = new PersonDTO();
         model.addAttribute("form", form);
         return "person-add";
     }
 
     @PostMapping("/person-add")
-    public String dodajOsobe(@ModelAttribute("form") @Valid PersonAddDTO form, BindingResult result) {
+    public String dodajOsobe(@ModelAttribute("form") @Valid PersonDTO form, BindingResult result) {
         if (result.hasErrors()) {
             return "person-add";
         } else {
@@ -36,9 +37,14 @@ public class PersonController {
             person.setNazwisko(form.getNazwisko());
             person.setWiek(form.getWiek());
             repository.save(person);
-            return "redirect://sda/person-added";
+            return "redirect:/sda/person-added";
         }
 
+    }
+
+    @RequestMapping("/person-added")
+    public String dodanoOsobe() {
+        return "person-added";
     }
 
 //    //@RequestMapping(value = "/persons", method = {RequestMethod.GET, RequestMethod.DELETE})

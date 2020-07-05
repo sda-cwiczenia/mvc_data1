@@ -1,5 +1,6 @@
 package com.sda.mvc_data1.model;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 
 public class PersonDTO {
@@ -7,7 +8,7 @@ public class PersonDTO {
     private String imie;
     @NotEmpty
     private String nazwisko;
-
+    @Min(17)
     private int wiek;
 
     public String getImie() {
