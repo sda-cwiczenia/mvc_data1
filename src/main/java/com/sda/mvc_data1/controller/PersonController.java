@@ -11,13 +11,19 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/sda")
+//@RequestMapping("/sda")
 public class PersonController {
 
     private PersonRepository repository;
 
     public PersonController(PersonRepository repository) {
         this.repository = repository;
+    }
+
+    @ResponseBody
+    @GetMapping("/welcome")
+    public String welcome() {
+        return "Witaj w aplikacji";
     }
 
     @GetMapping("/person-add")
@@ -37,7 +43,7 @@ public class PersonController {
             person.setNazwisko(form.getNazwisko());
             person.setWiek(form.getWiek());
             repository.save(person);
-            return "redirect:/sda/person-added";
+            return "redirect:/person-added";
         }
 
     }
