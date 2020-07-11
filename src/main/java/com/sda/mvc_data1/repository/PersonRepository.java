@@ -13,4 +13,6 @@ public interface PersonRepository extends JpaRepository<Person,Long> {
     List<Person> findByImie(String imie);
 
     List<Person> findByNazwisko(String nazwisko);
+
+    List<Person> findByImieAndNazwiskoAndWiek(String imie, String nazwisko, int wiek);
 }

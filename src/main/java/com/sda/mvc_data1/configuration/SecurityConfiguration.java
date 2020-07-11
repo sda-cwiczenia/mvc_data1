@@ -14,21 +14,27 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        UserDetails user1 = User.withDefaultPasswordEncoder()
+        UserDetails admin = User.withDefaultPasswordEncoder()
                 .username("admin")
                 .password("admin")
                 .roles("ADMIN")
                 .build();
-        return new InMemoryUserDetailsManager(user1);
+        UserDetails mod = User.withDefaultPasswordEncoder()
+                .username("mod")
+                .password("mod")
+                .roles("MOD")
+                .build();
+        return new InMemoryUserDetailsManager(admin,mod);
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/person-add").hasRole("ADMIN")
+                .antMatchers("/person-find").hasAnyRole("MOD", "ADMIN")
                 .anyRequest().permitAll()
                 .and()
-                .formLogin().permitAll()
+                .formLogin().permitAll().defaultSuccessUrl("/welcome")
                 .and()
                 .logout().permitAll()
                 .logoutSuccessUrl("/login")

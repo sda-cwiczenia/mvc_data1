@@ -4,7 +4,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 
 public class PersonDTO {
-    @NotEmpty
+    @NotEmpty(message = "Pole imie nie może być puste")
     private String imie;
     @NotEmpty
     private String nazwisko;

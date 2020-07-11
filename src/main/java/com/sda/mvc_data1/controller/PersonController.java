@@ -3,12 +3,14 @@ package com.sda.mvc_data1.controller;
 import com.sda.mvc_data1.model.Person;
 import com.sda.mvc_data1.model.PersonDTO;
 import com.sda.mvc_data1.repository.PersonRepository;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 //@RequestMapping("/sda")
@@ -29,6 +31,7 @@ public class PersonController {
     @GetMapping("/person-add")
     public String pobierzFormularz(Model model) {
         PersonDTO form = new PersonDTO();
+        form.setImie("Piotr");
         model.addAttribute("form", form);
         return "person-add";
     }
@@ -45,12 +48,26 @@ public class PersonController {
             repository.save(person);
             return "redirect:/person-added";
         }
-
     }
 
     @RequestMapping("/person-added")
     public String dodanoOsobe() {
         return "person-added";
+    }
+
+    @GetMapping("/person-find")
+    public String dajFormFind() {
+        return "person-find";
+    }
+
+    @ResponseBody
+    @PostMapping("/person-find")
+    public List<Person> znajdzOsobe(PersonDTO person) {
+
+        return repository.findByImieAndNazwiskoAndWiek(person.getImie()
+                                    ,person.getNazwisko()
+                                    , person.getWiek());
+
     }
 
 //    //@RequestMapping(value = "/persons", method = {RequestMethod.GET, RequestMethod.DELETE})
